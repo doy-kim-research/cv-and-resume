@@ -1,0 +1,72 @@
+name: Render and Deploy CV
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:   # allows manual trigger from the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: 'release'
+
+      - name: Cache R packages
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: r-${{ runner.os }}-${{ hashFiles('**/DESCRIPTION') }}-v1
+          restore-keys: r-${{ runner.os }}-
+
+      - name: Install system libraries
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y \
+            libcurl4-openssl-dev \
+            libssl-dev \
+            libfontconfig1-dev \
+            libharfbuzz-dev \
+            libfribidi-dev \
+            fonts-roboto
+
+      - name: Install R packages
+        run: |
+          Rscript -e 'install.packages(c(
+            "vitae", "tidyverse", "glue", "readr",
+            "tinytex", "rmarkdown", "RefManageR"
+          ), repos = "https://cloud.r-project.org")'
+
+      - name: Install TinyTeX and required LaTeX packages
+        run: |
+          Rscript -e 'tinytex::install_tinytex()'
+          Rscript -e 'tinytex::tlmgr_install(c(
+            "fontawesome5", "tcolorbox", "pgf",
+            "environ", "trimspaces", "etoolbox",
+            "unicode-math", "ucharcat"
+          ))'
+
+      - name: Render CV
+        run: Rscript -e 'rmarkdown::render("cv.Rmd", output_file = "cv.pdf")'
+
+      - name: Move PDF to docs/
+        run: |
+          mkdir -p docs
+          cp cv.pdf docs/cv.pdf
+
+      - name: Commit and push rendered PDF
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add docs/cv.pdf
+          git diff --staged --quiet || git commit -m "chore: auto-render CV [skip ci]"
+          git push

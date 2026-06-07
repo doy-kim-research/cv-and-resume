@@ -1,0 +1,26 @@
+position_id,order,project,detail
+1,1,iGRASP: Immersive Geometric Reasoning through Action and Spatial Practice,Investigates how body movements affect geometry reasoning and learning within an Extended Reality (XR) environment; addresses a critical gap in the literature regarding body movement and mathematics learning in XR
+1,2,iGRASP: Immersive Geometric Reasoning through Action and Spatial Practice,Employs an intra-medium randomized 2×2 factorial experiment manipulating sensorimotor engagement and conceptual congruence (High/Low) of physical actions on virtual geometric shapes
+1,3,iGRASP: Immersive Geometric Reasoning through Action and Spatial Practice,Uses structural equation modeling to estimate treatment effects and model the cognitive processes of mathematics learning in the XR environment
+1,4,GRAID: Geometric Reasoning Analysis through Integrated Datasets,Examines how physical actions and gestures affect mathematical thinking in non-technology-supported environments
+1,5,GRAID: Geometric Reasoning Analysis through Integrated Datasets,Utilizes Integrative Data Analysis (IDA) merging raw datasets from nine existing randomized-controlled experiments (N=774); applies Item Response Theory to harmonize measures across datasets
+1,6,GRAID: Geometric Reasoning Analysis through Integrated Datasets,Applies structural equation modeling (MIMIC framework) to model cognitive processes behind physical actions and geometric reasoning
+2,1,New Virtual Reality Technology to Enhance Students' Algebra Knowledge (US DOE S411C230211),Evaluated the efficacy of Curio — a VR app designed to enhance engagement and learning in Geometry for high-need and rural students in Alabama
+2,2,New Virtual Reality Technology to Enhance Students' Algebra Knowledge (US DOE S411C230211),"Roles: instrument development; data collection through interviews, online surveys, and site visits; data analysis; report writing"
+2,3,Illustrative Mathematics Evaluation 2023 (Bill & Melinda Gates Foundation INV-051124),Evaluated the efficacy of Illustrative Math in improving student math outcomes and explored implementation contexts that lead to better outcomes
+2,4,Illustrative Mathematics Evaluation 2023 (Bill & Melinda Gates Foundation INV-051124),"Gathered assessment data from state education agencies; visualized data collection progress; transformed raw data for a quasi-experimental study"
+3,1,EXCEL: Exploring Collaborative Embodiment for Learning (US DOE R305A200401),"Explored how innovative action-based technologies (VR, AR, large touchscreen boards) can enhance collaborative mathematical reasoning among high school students"
+3,2,EXCEL: Exploring Collaborative Embodiment for Learning (US DOE R305A200401),Collected and analyzed data; curated findings for effective communication; presented results at multiple conferences and in a journal article
+3,3,How Dynamic Gestures and Directed Actions Contribute to Mathematical Proof Practices (US DOE R305A160020),Investigated the impact of a motion-capture game on high school students' mathematical reasoning
+3,4,How Dynamic Gestures and Directed Actions Contribute to Mathematical Proof Practices (US DOE R305A160020),Partnered with local schools to enhance in-classroom studies; pioneered a remote data collection protocol during COVID-19; analyzed data and shared findings at multiple conferences
+4,1,EDPSYCH 301: How People Learn,Provided personalized guidance and constructive feedback to students through targeted support during assignments and office hours
+5,1,EDPSYCH 301: How People Learn,Provided personalized guidance and constructive feedback to students through targeted support during assignments and office hours
+6,1,,Examined how a dynamic digital environment impacts elementary school students' understanding of math concepts
+6,2,,"Independently initiated, managed, and communicated all project aspects — from conceptualization and data collection to writing and presentation"
+7,1,,"Recruited and developed a cross-functional team of four"
+7,2,,"Implemented 50+ professional development programs over 1500+ hours for 7000+ in-service teachers; collected feedback through surveys on all programs"
+7,3,,"Overhauled the website and launched a social media account to improve accessibility to program information"
+7,4,,Raised institutional evaluation grade from B to A (2016--2018 Institutional Evaluation)
+8,1,,"Drafted 44 evidence- and curriculum-based instruction plans for animation and visualization of educational content in mathematics"
+8,2,,"Collaborated with a cross-functional team of producers, writers, and animation studios"
+8,3,,"Produced 77 video episodes and 55 cartoon episodes for EBS Math"

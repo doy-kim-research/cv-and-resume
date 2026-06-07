@@ -1,0 +1,183 @@
+---
+name: Doyeon (Doy)
+surname: Kim
+position: "Ph.D. Candidate · Learning Sciences · Educational Technology"
+address: "\\#958 Educational Sciences, 1025 W. Johnson St., Madison, WI 53706"
+email: "doy.kim@wisc.edu"
+linkedin: "doy-kim"
+github: "doy-kim-research"
+date: "`r format(Sys.time(), '%B %Y')`"
+output:
+  vitae::awesomecv:
+    page_total: true
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+
+library(vitae)
+library(tidyverse)
+library(glue)
+library(readr)
+
+# Helper: split a semicolon-delimited string into a character vector.
+# Returns NULL for NA or empty strings (suppresses the bullet entirely).
+split_semi <- function(x) {
+  map(x, ~ {
+    if (is.na(.x) || .x == "") return(NULL)
+    str_split(.x, ";\\s*")[[1]]
+  })
+}
+```
+
+# Education
+
+```{r education}
+read_csv("data/education.csv", show_col_types = FALSE) %>%
+  mutate(why = split_semi(details)) %>%
+  detailed_entries(
+    what  = degree,
+    when  = when,
+    with  = institution,
+    where = location,
+    why   = why
+  )
+```
+
+# Research Projects and Professional Experience
+
+```{r positions}
+positions    <- read_csv("data/positions.csv",        show_col_types = FALSE)
+pos_details  <- read_csv("data/position_details.csv", show_col_types = FALSE)
+
+# Build a list-column of formatted detail strings per position.
+# Project names (when present) are rendered in italics as a label prefix.
+detail_lists <- pos_details %>%
+  mutate(
+    formatted = if_else(
+      !is.na(project) & project != "",
+      paste0("\\textit{", project, "}: ", detail),
+      detail
+    )
+  ) %>%
+  group_by(position_id) %>%
+  summarise(why = list(formatted), .groups = "drop")
+
+positions %>%
+  left_join(detail_lists, by = c("id" = "position_id")) %>%
+  detailed_entries(
+    what  = role,
+    when  = when,
+    with  = organization,
+    where = location,
+    why   = why
+  )
+```
+
+# Publications
+
+## Peer-Reviewed
+
+```{r peer-reviewed}
+bibliography_entries("data/publications_peer.bib") %>%
+  arrange(desc(issued))
+```
+
+## Other
+
+```{r other-publications}
+bibliography_entries("data/publications_other.bib") %>%
+  arrange(desc(issued))
+```
+
+# Awards, Fellowships & Honors
+
+```{r awards}
+read_csv("data/awards.csv", show_col_types = FALSE) %>%
+  brief_entries(
+    what = award,
+    when = when,
+    with = institution
+  )
+```
+
+# Skills
+
+```{r skills}
+read_csv("data/skills.csv", show_col_types = FALSE) %>%
+  group_by(category) %>%
+  summarise(skills_list = paste(skill, collapse = " · "), .groups = "drop") %>%
+  brief_entries(
+    what = skills_list,
+    with = category
+  )
+```
+
+# Leadership, Mentoring & Service
+
+## Research Mentorship
+
+```{r mentorship}
+read_csv("data/service.csv", show_col_types = FALSE) %>%
+  filter(category == "Research Mentorship") %>%
+  mutate(why = split_semi(description)) %>%
+  detailed_entries(
+    what  = role,
+    when  = when,
+    with  = organization,
+    why   = why
+  )
+```
+
+## Peer Review
+
+```{r peer-review}
+read_csv("data/service.csv", show_col_types = FALSE) %>%
+  filter(category == "Peer Review") %>%
+  brief_entries(
+    what = organization,
+    when = when
+  )
+```
+
+## Committee Service
+
+```{r committee-service}
+read_csv("data/service.csv", show_col_types = FALSE) %>%
+  filter(category == "Committee Service") %>%
+  mutate(why = split_semi(description)) %>%
+  detailed_entries(
+    what  = role,
+    when  = when,
+    with  = organization,
+    why   = why
+  )
+```
+
+## Presentations & Workshops
+
+```{r presentations}
+read_csv("data/service.csv", show_col_types = FALSE) %>%
+  filter(category == "Presentations") %>%
+  mutate(why = split_semi(description)) %>%
+  brief_entries(
+    what = role,
+    when = when,
+    with = organization
+  )
+```
+
+## Panel Discussions
+
+```{r panels}
+read_csv("data/service.csv", show_col_types = FALSE) %>%
+  filter(category == "Panel Discussions") %>%
+  mutate(why = split_semi(description)) %>%
+  brief_entries(
+    what = role,
+    when = when,
+    with = organization
+  )
+```
