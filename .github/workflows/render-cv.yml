@@ -38,10 +38,15 @@ jobs:
         run: |
           Rscript -e 'tinytex::install_tinytex()'
           Rscript -e 'tinytex::tlmgr_install(c(
-            "fontawesome5", "tcolorbox", "pgf",
+            "moderncv", "fontawesome5", "fontawesome",
+            "tcolorbox", "pgf",
             "environ", "trimspaces", "etoolbox",
             "unicode-math", "ucharcat"
           ))'
+          # Update all installed LaTeX packages to a consistent set of versions.
+          # This resolves the moderncv / fontawesome5 version mismatch that
+          # causes "Command \mastodonsocialsymbol undefined".
+          Rscript -e 'tinytex::tlmgr(c("update", "--self", "--all"))'
 
       - name: Render CV
         run: Rscript -e 'rmarkdown::render("cv.Rmd", output_file = "cv.pdf")'
