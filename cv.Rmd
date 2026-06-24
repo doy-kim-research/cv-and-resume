@@ -8,11 +8,10 @@ linkedin: "doy-kim"
 github: "doy-kim-research"
 date: "`r format(Sys.time(), '%B %Y')`"
 output:
-  vitae::moderncv:
-    theme: classic
+  vitae::awesomecv:
+    page_total: true
     latex_engine: xelatex
-header-includes:
-  - \providecommand{\mastodonsocialsymbol}{}
+    keep_tex: false
 ---
 
 ```{r setup, include=FALSE}
