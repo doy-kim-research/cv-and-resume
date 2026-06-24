@@ -11,6 +11,8 @@ output:
   vitae::moderncv:
     theme: classic
     latex_engine: xelatex
+header-includes:
+  - \providecommand{\mastodonsocialsymbol}{}
 ---
 
 ```{r setup, include=FALSE}
