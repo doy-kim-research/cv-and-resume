@@ -43,10 +43,17 @@ jobs:
             "environ", "trimspaces", "etoolbox",
             "unicode-math", "ucharcat"
           ))'
-          # Update all installed LaTeX packages to a consistent set of versions.
-          # This resolves the moderncv / fontawesome5 version mismatch that
-          # causes "Command \mastodonsocialsymbol undefined".
-          Rscript -e 'tinytex::tlmgr(c("update", "--self", "--all"))'
+
+      - name: Patch moderncv.cls to define missing social symbols
+        run: |
+          CLS=$(find ~/.TinyTeX -name 'moderncv.cls' | head -n 1)
+          echo "Patching: $CLS"
+          # Insert empty definitions for social symbols that older moderncv.cls
+          # versions omit. \providecommand only defines a symbol if it does not
+          # already exist, so existing icons (LinkedIn, GitHub) are untouched.
+          # Inserted before \endinput so they load while the class is read.
+          perl -i -pe 's/\\endinput/\\providecommand{\\mastodonsocialsymbol}{}\n\\providecommand{\\discordsocialsymbol}{}\n\\providecommand{\\twitchsocialsymbol}{}\n\\providecommand{\\youtubesocialsymbol}{}\n\\providecommand{\\tiktoksocialsymbol}{}\n\\providecommand{\\instagramsocialsymbol}{}\n\\providecommand{\\soundcloudsocialsymbol}{}\n\\providecommand{\\steamsocialsymbol}{}\n\\providecommand{\\xboxsocialsymbol}{}\n\\providecommand{\\playstationsocialsymbol}{}\n\\providecommand{\\battlenetsocialsymbol}{}\n\\endinput/' "$CLS"
+          echo "Patch complete."
 
       - name: Render CV
         run: Rscript -e 'rmarkdown::render("cv.Rmd", output_file = "cv.pdf")'
