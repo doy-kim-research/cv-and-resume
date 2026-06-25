@@ -46,17 +46,21 @@ jobs:
       - name: Render CV
         run: Rscript -e 'rmarkdown::render("cv.Rmd", output_file = "cv.pdf")'
 
-      - name: Move PDF to docs/
+      - name: Render Resume
+        run: Rscript -e 'rmarkdown::render("resume.Rmd", output_file = "resume.pdf")'
+
+      - name: Move PDFs to docs/
         run: |
           mkdir -p docs
           cp cv.pdf docs/cv.pdf
+          cp resume.pdf docs/resume.pdf
           # Tell GitHub Pages to serve files as-is and skip the Jekyll build.
           touch docs/.nojekyll
 
-      - name: Commit and push rendered PDF
+      - name: Commit and push rendered PDFs
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add docs
-          git diff --staged --quiet || git commit -m "chore: auto-render CV [skip ci]"
+          git diff --staged --quiet || git commit -m "chore: auto-render CV and resume [skip ci]"
           git push

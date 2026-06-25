@@ -1,0 +1,90 @@
+---
+name: Doyeon (Doy)
+surname: Kim
+position: "Quantitative Researcher · Program Evaluation · Educational Technology"
+address: "Madison, WI"
+email: "doy.kim@wisc.edu"
+linkedin: "doy-kim"
+github: "doy-kim-research"
+date: "`r format(Sys.time(), '%B %Y')`"
+output:
+  vitae::awesomecv:
+    page_total: true
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+
+library(vitae)
+library(tidyverse)
+library(glue)
+library(readr)
+
+split_semi <- function(x) {
+  map(x, ~ {
+    if (is.na(.x) || .x == "") return(NULL)
+    str_split(.x, ";\\s*")[[1]]
+  })
+}
+```
+
+# Summary
+
+Learning scientist and quantitative researcher with a decade of experience designing and evaluating education programs and technologies in authentic K--12 and postsecondary settings. Currently a Doctoral Research Intern in WestEd's Center for Teaching and Learning, building and maintaining end-to-end data pipelines and evaluating educational technology interventions through randomized and quasi-experimental designs. Background spans rigorous quantitative methods (experimental design, structural equation modeling, causal inference), mixed-methods data collection, and technical reporting for diverse audiences. Former certified secondary mathematics teacher and developer of mathematics professional development for over 7,000 in-service teachers.
+
+# Relevant Experience
+
+```{r experience}
+experience  <- read_csv("data/resume_experience.csv",         show_col_types = FALSE)
+exp_details <- read_csv("data/resume_experience_details.csv", show_col_types = FALSE)
+
+detail_lists <- exp_details %>%
+  arrange(position_id, order) %>%
+  group_by(position_id) %>%
+  summarise(why = list(detail), .groups = "drop")
+
+experience %>%
+  left_join(detail_lists, by = c("id" = "position_id")) %>%
+  detailed_entries(
+    what  = role,
+    when  = when,
+    with  = organization,
+    where = location,
+    why   = why
+  )
+```
+
+# Skills
+
+```{r skills}
+read_csv("data/resume_skills.csv", show_col_types = FALSE) %>%
+  group_by(category) %>%
+  summarise(skills_list = paste(skill, collapse = " · "), .groups = "drop") %>%
+  brief_entries(
+    what = skills_list,
+    with = category
+  )
+```
+
+# Education
+
+```{r education}
+read_csv("data/education.csv", show_col_types = FALSE) %>%
+  mutate(why = split_semi(details)) %>%
+  detailed_entries(
+    what  = degree,
+    when  = when,
+    with  = institution,
+    where = location,
+    why   = why
+  )
+```
+
+# Selected Publications
+
+```{r publications}
+bibliography_entries("data/resume_publications.bib") %>%
+  arrange(desc(issued))
+```
